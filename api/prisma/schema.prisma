@@ -10,13 +10,47 @@ generator client {
 }
 
 datasource db {
-   provider = "mysql"  
+  provider = "mysql"
 }
 
 model Client {
+  id          Int            @id @default(autoincrement())
+  email       String         @unique
+  name        String?
+  phone       String?
+  dateJoined  DateTime       @default(now())
+  subscriptions Subscription[] 
+}
+
+
+model Staff {
   id        Int      @id @default(autoincrement())
   email     String   @unique
   name      String?
   phone     String?
-  dateJoined DateTime @default(now())
+  dateHired DateTime @default(now())
+  isCoach   Boolean  @default(false)
+  isAdmin   Boolean  @default(false)
+}
+
+model Membership {
+  id          Int            @id @default(autoincrement())
+  name        String
+  price       Float
+  duration    Int
+  description String?
+  subscriptions Subscription[] 
+}
+
+model Subscription {
+  id           Int      @id @default(autoincrement())
+  clientId     Int
+  membershipId Int
+  startDate    DateTime @default(now())
+  endDate      DateTime
+  isActive     Boolean  @default(true)
+  qrCode       String   @unique
+
+  client       Client   @relation(fields: [clientId], references: [id])
+  membership   Membership @relation(fields: [membershipId], references: [id])
 }

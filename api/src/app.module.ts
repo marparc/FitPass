@@ -6,6 +6,10 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { AppResolver } from './app.resolver';
 import { ClientsModule } from './clients/clients.module';
+import { StaffModule } from './staff/staff.module';
+import { MembershipsModule } from './memberships/memberships.module';
+import { SubscriptionsModule } from './subscriptions/subscriptions.module';
+import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
   imports: [
@@ -14,6 +18,10 @@ import { ClientsModule } from './clients/clients.module';
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
     }),
     ClientsModule,
+    StaffModule,
+    MembershipsModule,
+    SubscriptionsModule,
+    PrismaModule,
   ],
   controllers: [AppController],
   providers: [AppService, AppResolver],

@@ -9,13 +9,16 @@ export class ClientsResolver {
   constructor(private readonly clientsService: ClientsService) {}
 
   @Mutation(() => Client)
-  createClient(@Args('createClientInput') createClientInput: CreateClientInput) {
+  createClient(
+    @Args('createClientInput') createClientInput: CreateClientInput,
+  ) {
     return this.clientsService.create(createClientInput);
   }
 
   @Query(() => [Client], { name: 'clients' })
-  findAll() {
-    return this.clientsService.findAll();
+  async findAll() {
+    const result = await this.clientsService.findAll();
+    return result || []; // Ensure we always return an array
   }
 
   @Query(() => Client, { name: 'client' })
@@ -24,7 +27,9 @@ export class ClientsResolver {
   }
 
   @Mutation(() => Client)
-  updateClient(@Args('updateClientInput') updateClientInput: UpdateClientInput) {
+  updateClient(
+    @Args('updateClientInput') updateClientInput: UpdateClientInput,
+  ) {
     return this.clientsService.update(updateClientInput.id, updateClientInput);
   }
 

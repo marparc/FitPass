@@ -1,10 +1,15 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import * as dotenv from 'dotenv';
+
+// Load environment variables before anything else
+dotenv.config();
 
 async function bootstrap() {
-  const port = process.env.PORT ? parseInt(process.env.PORT) : 4000;
   const app = await NestFactory.create(AppModule);
+  const port = process.env.PORT || 3000;
   await app.listen(port);
-  console.log(`NestJS running on http://localhost:${port}`);
+  console.log(`Application is running on: http://localhost:${port}`);
+  console.log(`GraphQL Playground: http://localhost:${port}/graphql`);
 }
 bootstrap();

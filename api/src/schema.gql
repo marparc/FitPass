@@ -3,29 +3,139 @@
 # ------------------------------------------------------
 
 type Client {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  id: Int!
+  name: String!
+  email: String!
+  phone: String!
+}
+
+type Staff {
+  id: Int!
+  email: String!
+  name: String
+  phone: String
+  dateHired: DateTime!
+  isCoach: Boolean!
+  isAdmin: Boolean!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Membership {
+  id: Int!
+  name: String!
+  price: Float!
+  duration: Int!
+  description: String
+}
+
+type Subscription {
+  id: Int!
+  clientId: Int!
+  membershipId: Int!
+  startDate: DateTime!
+  endDate: DateTime!
+  isActive: Boolean!
+  qrCode: String!
 }
 
 type Query {
   hello: String!
   clients: [Client!]!
   client(id: Int!): Client!
+  staff(id: Int!): Staff!
+  memberships: [Membership!]!
+  membership(id: Int!): Membership!
+  subscriptions: [Subscription!]!
+  subscription(id: Int!): Subscription!
 }
 
 type Mutation {
   createClient(createClientInput: CreateClientInput!): Client!
   updateClient(updateClientInput: UpdateClientInput!): Client!
   removeClient(id: Int!): Client!
+  createStaff(createStaffInput: CreateStaffInput!): Staff!
+  updateStaff(updateStaffInput: UpdateStaffInput!): Staff!
+  removeStaff(id: Int!): Staff!
+  createMembership(createMembershipInput: CreateMembershipInput!): Membership!
+  updateMembership(updateMembershipInput: UpdateMembershipInput!): Membership!
+  removeMembership(id: Int!): Membership!
+  createSubscription(createSubscriptionInput: CreateSubscriptionInput!): Subscription!
+  updateSubscription(updateSubscriptionInput: UpdateSubscriptionInput!): Subscription!
+  removeSubscription(id: Int!): Subscription!
 }
 
 input CreateClientInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  """Client name"""
+  name: String!
+
+  """Client email"""
+  email: String!
+
+  """Client phone number"""
+  phone: String!
 }
 
 input UpdateClientInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+  """Client name"""
+  name: String
+
+  """Client email"""
+  email: String
+
+  """Client phone number"""
+  phone: String
+  id: Int!
+}
+
+input CreateStaffInput {
+  email: String!
+  name: String
+  phone: String
+  isCoach: Boolean! = false
+  isAdmin: Boolean! = false
+}
+
+input UpdateStaffInput {
+  email: String
+  name: String
+  phone: String
+  isCoach: Boolean = false
+  isAdmin: Boolean = false
+  id: Int!
+}
+
+input CreateMembershipInput {
+  name: String!
+  price: Float!
+  duration: Int!
+  description: String
+}
+
+input UpdateMembershipInput {
+  name: String
+  price: Float
+  duration: Int
+  description: String
+  id: Int!
+}
+
+input CreateSubscriptionInput {
+  clientId: Int!
+  membershipId: Int!
+  endDate: DateTime!
+  isActive: Boolean
+  qrCode: String!
+}
+
+input UpdateSubscriptionInput {
+  clientId: Int
+  membershipId: Int
+  endDate: DateTime
+  isActive: Boolean
+  qrCode: String
   id: Int!
 }
